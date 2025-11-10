@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập thất bại</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .container { 
+            background: rgba(255,255,255,0.1); 
+            padding: 40px; 
+            border-radius: 10px; 
+            backdrop-filter: blur(10px);
+        }
+        .btn { 
+            display: inline-block; 
+            padding: 12px 30px; 
+            background: #5865F2; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            margin-top: 20px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>❌ Đăng nhập thất bại</h1>
+        <p>Không thể đăng nhập với Discord. Vui lòng thử lại.</p>
+        <a href="/auth/discord" class="btn">🔄 Thử lại</a>
+        <a href="/" class="btn">🏠 Về trang chủ</a>
+    </div>
+</body>
+</html>

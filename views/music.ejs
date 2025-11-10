@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Quản lý Music - Queen Premium Bot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --primary: #5865F2;
+            --primary-dark: #4752C4;
+            --secondary: #EB459E;
+            --success: #3BA55D;
+            --danger: #ED4245;
+            --warning: #FAA81A;
+            --info: #57F287;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --sidebar: #0f1419;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-light: #ffffff;
+            --text-gray: #b9bbbe;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --music-gradient: linear-gradient(135deg, #EB459E 0%, #5865F2 100%);
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar);
+            height: 100vh;
+            position: fixed;
+            padding: 30px 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 5px 0 25px rgba(0,0,0,0.3);
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 3px solid var(--primary);
+            padding: 3px;
+            background: var(--darker);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-title {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            padding-left: 10px;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            margin: 8px 0;
+            background: transparent;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .nav-item:hover {
+            background: rgba(88, 101, 242, 0.1);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            background: var(--music-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Music Player */
+        .music-player {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .music-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--music-gradient);
+        }
+
+        .now-playing {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .album-art {
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #EB459E, #5865F2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            flex-shrink: 0;
+        }
+
+        .track-info {
+            flex: 1;
+        }
+
+        .track-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #FFFFFF, #E2E8F0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .track-artist {
+            color: var(--text-gray);
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--music-gradient);
+            border-radius: 3px;
+            width: 35%;
+            transition: width 0.3s ease;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-gray);
+            font-size: 0.9em;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .control-btn.play-pause {
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            font-size: 1.5em;
+        }
+
+        .control-btn.play-pause:hover {
+            background: #D4358C;
+        }
+
+        /* Queue Section */
+        .queue-section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5em;
+            background: linear-gradient(45deg, #FFFFFF, #E2E8F0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .queue-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .queue-item:hover {
+            background: rgba(88, 101, 242, 0.1);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .queue-item.playing {
+            background: rgba(235, 69, 158, 0.2);
+            border-color: var(--secondary);
+        }
+
+        .queue-item .album-art {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2em;
+        }
+
+        .queue-info {
+            flex: 1;
+        }
+
+        .queue-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .queue-artist {
+            color: var(--text-gray);
+            font-size: 0.9em;
+        }
+
+        .queue-duration {
+            color: var(--text-gray);
+            font-size: 0.9em;
+        }
+
+        .queue-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Music Controls */
+        .music-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .control-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .control-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            background: var(--music-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        /* Servers List */
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .server-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .server-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .server-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .server-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .server-info h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .server-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9em;
+            color: var(--text-gray);
+        }
+
+        .music-status {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(88, 101, 242, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.8em;
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-gray);
+        }
+
+        .empty-state i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+                padding: 20px 10px;
+            }
+            .sidebar .nav-text, .user-info .user-name, .user-discriminator {
+                display: none;
+            }
+            .main-content {
+                margin-left: 80px;
+            }
+            .now-playing {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .music-controls {
+                grid-template-columns: 1fr;
+            }
+            .servers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--success);
+            color: white;
+            border-radius: 10px;
+            z-index: 10000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        .notification.warning {
+            background: var(--warning);
+        }
+
+        /* Equalizer Animation */
+        .equalizer {
+            display: flex;
+            align-items: end;
+            gap: 3px;
+            height: 20px;
+        }
+
+        .bar {
+            width: 3px;
+            background: var(--secondary);
+            border-radius: 2px;
+            animation: equalizer 1.5s ease infinite;
+        }
+
+        .bar:nth-child(1) { animation-delay: 0s; height: 60%; }
+        .bar:nth-child(2) { animation-delay: 0.1s; height: 30%; }
+        .bar:nth-child(3) { animation-delay: 0.2s; height: 80%; }
+        .bar:nth-child(4) { animation-delay: 0.3s; height: 40%; }
+        .bar:nth-child(5) { animation-delay: 0.4s; height: 70%; }
+
+        @keyframes equalizer {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.3); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>👑 Queen Premium</h1>
+            <p style="color: var(--text-gray); font-size: 0.8em;">Music Management</p>
+        </div>
+
+        <div class="user-info">
+            <img src="<%= user.avatar %>" alt="Avatar" class="user-avatar">
+            <div class="user-name"><%= user.username %></div>
+            <div class="user-discriminator">#<%= user.discriminator %></div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-title">Main Menu</div>
+            <a href="/dashboard" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span class="nav-text">📊 Tổng quan</span>
+            </a>
+            <a href="/dashboard/servers" class="nav-item">
+                <i class="fas fa-server"></i>
+                <span class="nav-text">🏠 Quản lý Servers</span>
+            </a>
+            <a href="/dashboard/music" class="nav-item active">
+                <i class="fas fa-music"></i>
+                <span class="nav-text">🎵 Quản lý Music</span>
+            </a>
+            <a href="/dashboard/settings" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span class="nav-text">⚙️ Cài đặt</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Music Tools</div>
+            <a href="/dashboard/music" class="nav-item">
+                <i class="fas fa-play-circle"></i>
+                <span class="nav-text">🎵 Now Playing</span>
+            </a>
+            <a href="/dashboard/music?view=queue" class="nav-item">
+                <i class="fas fa-list"></i>
+                <span class="nav-text">📋 Queue Management</span>
+            </a>
+            <a href="/dashboard/music?view=playlists" class="nav-item">
+                <i class="fas fa-folder"></i>
+                <span class="nav-text">📁 Playlists</span>
+            </a>
+            <a href="/dashboard/music?view=radio" class="nav-item">
+                <i class="fas fa-broadcast-tower"></i>
+                <span class="nav-text">📻 Radio Stations</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Navigation</div>
+            <a href="/" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span class="nav-text">🏠 Về trang chủ</span>
+            </a>
+            <a href="/logout" class="nav-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="nav-text">🚪 Đăng xuất</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>🎵 Quản lý Music System</h1>
+            <div class="header-actions">
+                <div style="background: var(--success); padding: 8px 15px; border-radius: 20px; font-size: 0.9em;">
+                    <i class="fas fa-circle" style="font-size: 0.7em; margin-right: 8px;"></i>
+                    Music System Active
+                </div>
+                <button class="btn btn-success" onclick="refreshMusicStatus()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Music Player -->
+        <div class="music-player">
+            <div class="now-playing">
+                <div class="album-art">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="track-info">
+                    <div class="track-title" id="currentTrack">Không có bài hát nào đang phát</div>
+                    <div class="track-artist" id="currentArtist">Queen Premium Bot</div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress" id="musicProgress"></div>
+                        </div>
+                        <div class="time-info">
+                            <span id="currentTime">0:00</span>
+                            <span id="totalTime">0:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="control-btn" onclick="skipPrevious()">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn" onclick="toggleShuffle()">
+                    <i class="fas fa-random"></i>
+                </button>
+                <button class="control-btn play-pause" onclick="togglePlayPause()">
+                    <i class="fas fa-play" id="playPauseIcon"></i>
+                </button>
+                <button class="control-btn" onclick="toggleLoop()">
+                    <i class="fas fa-redo"></i>
+                </button>
+                <button class="control-btn" onclick="skipNext()">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Music Controls -->
+        <div class="music-controls">
+            <div class="control-card">
+                <div class="control-icon">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+                <h3>Volume Control</h3>
+                <div class="volume-control">
+                    <i class="fas fa-volume-down" style="color: var(--text-gray);"></i>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50" onchange="changeVolume(this.value)">
+                    <i class="fas fa-volume-up" style="color: var(--text-gray);"></i>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.9em; color: var(--text-gray);">
+                    Current: <span id="volumeValue">50%</span>
+                </div>
+            </div>
+
+            <div class="control-card">
+                <div class="control-icon">
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+                <h3>Audio Effects</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                    <button class="btn btn-outline btn-sm" onclick="toggleBassBoost()">
+                        <i class="fas fa-wave-square"></i>
+                        Bass Boost
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="toggleNightcore()">
+                        <i class="fas fa-bolt"></i>
+                        Nightcore
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="toggleVaporwave()">
+                        <i class="fas fa-cloud"></i>
+                        Vaporwave
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-card">
+                <div class="control-icon">
+                    <i class="fas fa-broadcast-tower"></i>
+                </div>
+                <h3>Radio Stations</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                    <button class="btn btn-outline btn-sm" onclick="playRadio('vpop')">
+                        <i class="fas fa-music"></i>
+                        V-Pop Radio
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="playRadio('lofi')">
+                        <i class="fas fa-headphones"></i>
+                        Lofi Radio
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="playRadio('edm')">
+                        <i class="fas fa-compact-disc"></i>
+                        EDM Radio
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Queue Section -->
+        <div class="queue-section">
+            <div class="section-header">
+                <h2>📋 Music Queue</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-outline btn-sm" onclick="clearQueue()">
+                        <i class="fas fa-trash"></i>
+                        Clear Queue
+                    </button>
+                    <button class="btn btn-sm" onclick="refreshQueue()">
+                        <i class="fas fa-sync"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            <div class="queue-list" id="queueList">
+                <div class="empty-state">
+                    <i class="fas fa-list-music"></i>
+                    <h3>Hàng chờ trống</h3>
+                    <p>Thêm bài hát vào hàng chờ để bắt đầu phát nhạc</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Servers -->
+        <div class="section-header">
+            <h2>🏠 Servers đang phát nhạc</h2>
+        </div>
+        <div class="servers-grid" id="activeServers">
+            <!-- Servers will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Music data
+        let currentTrack = {
+            title: 'Không có bài hát nào đang phát',
+            artist: 'Queen Premium Bot',
+            duration: 0,
+            position: 0,
+            playing: false
+        };
+
+        let queue = [];
+        let activeServers = [];
+
+        // Initialize music player
+        function initializeMusicPlayer() {
+            updatePlayerDisplay();
+            loadQueue();
+            loadActiveServers();
+            startProgressSimulation();
+        }
+
+        // Update player display
+        function updatePlayerDisplay() {
+            document.getElementById('currentTrack').textContent = currentTrack.title;
+            document.getElementById('currentArtist').textContent = currentTrack.artist;
+            document.getElementById('playPauseIcon').className = currentTrack.playing ? 'fas fa-pause' : 'fas fa-play';
+            
+            // Update progress
+            const progressPercent = currentTrack.duration > 0 ? (currentTrack.position / currentTrack.duration) * 100 : 0;
+            document.getElementById('musicProgress').style.width = `${progressPercent}%`;
+            
+            // Update time display
+            document.getElementById('currentTime').textContent = formatTime(currentTrack.position);
+            document.getElementById('totalTime').textContent = formatTime(currentTrack.duration);
+        }
+
+        // Format time helper
+        function formatTime(seconds) {
+            if (!seconds || isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Load queue
+        async function loadQueue() {
+            try {
+                // Simulate API call - in real app, fetch from your backend
+                const mockQueue = [
+                    {
+                        id: 1,
+                        title: 'Shape of You',
+                        artist: 'Ed Sheeran',
+                        duration: 233,
+                        thumbnail: '🎵',
+                        requestedBy: 'User123'
+                    },
+                    {
+                        id: 2,
+                        title: 'Blinding Lights',
+                        artist: 'The Weeknd',
+                        duration: 200,
+                        thumbnail: '🎶',
+                        requestedBy: 'User456'
+                    },
+                    {
+                        id: 3,
+                        title: 'Dynamite',
+                        artist: 'BTS',
+                        duration: 199,
+                        thumbnail: '✨',
+                        requestedBy: 'User789'
+                    }
+                ];
+
+                queue = mockQueue;
+                renderQueue();
+            } catch (error) {
+                console.error('Error loading queue:', error);
+                showNotification('Lỗi khi tải hàng chờ', 'error');
+            }
+        }
+
+        // Render queue
+        function renderQueue() {
+            const queueList = document.getElementById('queueList');
+            
+            if (queue.length === 0) {
+                queueList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-list-music"></i>
+                        <h3>Hàng chờ trống</h3>
+                        <p>Thêm bài hát vào hàng chờ để bắt đầu phát nhạc</p>
+                    </div>
+                `;
+                return;
+            }
+
+            queueList.innerHTML = queue.map((track, index) => `
+                <div class="queue-item ${index === 0 ? 'playing' : ''}">
+                    <div class="album-art">
+                        ${track.thumbnail || '🎵'}
+                    </div>
+                    <div class="queue-info">
+                        <div class="queue-title">${track.title}</div>
+                        <div class="queue-artist">${track.artist} • Yêu cầu bởi ${track.requestedBy}</div>
+                    </div>
+                    <div class="queue-duration">${formatTime(track.duration)}</div>
+                    <div class="queue-actions">
+                        ${index !== 0 ? `
+                            <button class="btn btn-outline btn-sm" onclick="playTrack(${track.id})">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        ` : ''}
+                        <button class="btn btn-outline btn-sm" onclick="removeFromQueue(${track.id})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add animations
+            gsap.from('.queue-item', {
+                duration: 0.6,
+                y: 20,
+                opacity: 0,
+                stagger: 0.1,
+                ease: 'back.out(1.7)'
+            });
+        }
+
+        // Load active servers
+        async function loadActiveServers() {
+            try {
+                // Simulate API call
+                const mockServers = [
+                    {
+                        id: '1',
+                        name: 'Music Lovers',
+                        memberCount: 150,
+                        musicStatus: 'Đang phát: Shape of You',
+                        currentListeners: 12
+                    },
+                    {
+                        id: '2',
+                        name: 'Chill Zone',
+                        memberCount: 80,
+                        musicStatus: 'Đang phát: Lofi Radio',
+                        currentListeners: 8
+                    }
+                ];
+
+                activeServers = mockServers;
+                renderActiveServers();
+            } catch (error) {
+                console.error('Error loading active servers:', error);
+            }
+        }
+
+        // Render active servers
+        function renderActiveServers() {
+            const serversGrid = document.getElementById('activeServers');
+            
+            if (activeServers.length === 0) {
+                serversGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-server"></i>
+                        <h3>Không có server nào đang phát nhạc</h3>
+                        <p>Bot chưa được sử dụng để phát nhạc trên server nào</p>
+                    </div>
+                `;
+                return;
+            }
+
+            serversGrid.innerHTML = activeServers.map(server => `
+                <div class="server-card">
+                    <div class="server-header">
+                        <div class="server-icon" style="background: ${getRandomColor()};">
+                            ${server.name.charAt(0)}
+                        </div>
+                        <div class="server-info">
+                            <h4>${server.name}</h4>
+                            <div class="server-stats">
+                                <span>👥 ${server.memberCount}</span>
+                                <span>🎧 ${server.currentListeners} người nghe</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="music-status">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <div class="equalizer">
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                            </div>
+                            <span style="font-weight: 500;">Đang phát nhạc</span>
+                        </div>
+                        <div style="color: var(--text-gray); font-size: 0.85em;">
+                            ${server.musicStatus}
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn btn-outline btn-sm" onclick="viewServerMusic('${server.id}')">
+                            <i class="fas fa-eye"></i>
+                            Xem chi tiết
+                        </button>
+                        <button class="btn btn-sm" onclick="joinServerMusic('${server.id}')">
+                            <i class="fas fa-headphones"></i>
+                            Tham gia
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add animations
+            gsap.from('.server-card', {
+                duration: 0.6,
+                y: 20,
+                opacity: 0,
+                stagger: 0.1,
+                ease: 'back.out(1.7)'
+            });
+        }
+
+        // Player control functions
+        function togglePlayPause() {
+            currentTrack.playing = !currentTrack.playing;
+            updatePlayerDisplay();
+            
+            // Simulate API call to control playback
+            showNotification(currentTrack.playing ? 'Đã tiếp tục phát nhạc' : 'Đã tạm dừng', 'success');
+        }
+
+        function skipNext() {
+            if (queue.length > 1) {
+                // Move to next track in queue
+                const nextTrack = queue[1];
+                currentTrack = {
+                    title: nextTrack.title,
+                    artist: nextTrack.artist,
+                    duration: nextTrack.duration,
+                    position: 0,
+                    playing: true
+                };
+                updatePlayerDisplay();
+                renderQueue();
+                showNotification('Đã chuyển sang bài tiếp theo', 'success');
+            }
+        }
+
+        function skipPrevious() {
+            showNotification('Không thể quay lại bài trước', 'warning');
+        }
+
+        function toggleShuffle() {
+            showNotification('Chế độ shuffle đã được bật', 'success');
+        }
+
+        function toggleLoop() {
+            showNotification('Chế độ lặp lại đã được bật', 'success');
+        }
+
+        function changeVolume(value) {
+            document.getElementById('volumeValue').textContent = `${value}%`;
+            showNotification(`Âm lượng đã thay đổi: ${value}%`, 'info');
+        }
+
+        // Audio effects
+        function toggleBassBoost() {
+            showNotification('Bass Boost đã được kích hoạt', 'success');
+        }
+
+        function toggleNightcore() {
+            showNotification('Nightcore effect đã được kích hoạt', 'success');
+        }
+
+        function toggleVaporwave() {
+            showNotification('Vaporwave effect đã được kích hoạt', 'success');
+        }
+
+        // Radio functions
+        function playRadio(station) {
+            const stations = {
+                'vpop': { name: 'V-Pop Radio', genre: 'Vietnamese Pop' },
+                'lofi': { name: 'Lofi Radio', genre: 'Lofi Hip Hop' },
+                'edm': { name: 'EDM Radio', genre: 'Electronic Dance Music' }
+            };
+            
+            const stationInfo = stations[station];
+            currentTrack = {
+                title: stationInfo.name,
+                artist: stationInfo.genre,
+                duration: 0,
+                position: 0,
+                playing: true
+            };
+            updatePlayerDisplay();
+            showNotification(`Đang phát ${stationInfo.name}`, 'success');
+        }
+
+        // Queue management
+        function playTrack(trackId) {
+            const track = queue.find(t => t.id === trackId);
+            if (track) {
+                currentTrack = {
+                    title: track.title,
+                    artist: track.artist,
+                    duration: track.duration,
+                    position: 0,
+                    playing: true
+                };
+                updatePlayerDisplay();
+                showNotification(`Đang phát: ${track.title}`, 'success');
+            }
+        }
+
+        function removeFromQueue(trackId) {
+            queue = queue.filter(track => track.id !== trackId);
+            renderQueue();
+            showNotification('Đã xóa bài hát khỏi hàng chờ', 'success');
+        }
+
+        function clearQueue() {
+            if (confirm('Bạn có chắc muốn xóa toàn bộ hàng chờ?')) {
+                queue = [];
+                renderQueue();
+                showNotification('Đã xóa toàn bộ hàng chờ', 'success');
+            }
+        }
+
+        function refreshQueue() {
+            loadQueue();
+            showNotification('Đã làm mới hàng chờ', 'info');
+        }
+
+        // Server music functions
+        function viewServerMusic(serverId) {
+            showNotification(`Đang tải thông tin nhạc của server...`, 'info');
+        }
+
+        function joinServerMusic(serverId) {
+            showNotification(`Đang kết nối đến server...`, 'info');
+        }
+
+        // Utility functions
+        function getRandomColor() {
+            const colors = [
+                '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+                '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation' : 'info'}-circle"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 5000);
+        }
+
+        function refreshMusicStatus() {
+            const btn = event?.target || document.querySelector('.btn-success');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="loading"></div> Loading...';
+            btn.disabled = true;
+            
+            // Simulate refresh
+            setTimeout(() => {
+                loadQueue();
+                loadActiveServers();
+                showNotification('Đã cập nhật trạng thái nhạc', 'success');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        // Progress simulation (for demo purposes)
+        function startProgressSimulation() {
+            setInterval(() => {
+                if (currentTrack.playing && currentTrack.duration > 0) {
+                    currentTrack.position += 1;
+                    if (currentTrack.position >= currentTrack.duration) {
+                        currentTrack.playing = false;
+                        currentTrack.position = 0;
+                    }
+                    updatePlayerDisplay();
+                }
+            }, 1000);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMusicPlayer();
+            
+            // Add GSAP animations
+            gsap.from('.music-player', {
+                duration: 0.8,
+                y: 30,
+                opacity: 0,
+                ease: 'back.out(1.7)'
+            });
+            
+            gsap.from('.control-card', {
+                duration: 0.6,
+                y: 20,
+                opacity: 0,
+                stagger: 0.1,
+                delay: 0.3,
+                ease: 'back.out(1.7)'
+            });
+        });
+
+        // Auto-refresh every 30 seconds
+        setInterval(refreshMusicStatus, 30000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👑 Queen Premium Bot - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --primary: #5865F2;
+            --primary-dark: #4752C4;
+            --secondary: #EB459E;
+            --success: #3BA55D;
+            --danger: #ED4245;
+            --warning: #FAA81A;
+            --dark: #2C2F33;
+            --darker: #23272A;
+            --light: #FFFFFF;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            --gradient-dark: linear-gradient(135deg, #2C2F33 0%, #23272A 100%);
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header Styles */
+        .header { 
+            text-align: center; 
+            padding: 80px 0 60px; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.2;
+            z-index: -1;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.3; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .logo {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.3));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-15px) rotate(2deg); }
+            66% { transform: translateY(-10px) rotate(-2deg); }
+        }
+
+        .header h1 { 
+            font-size: 4em; 
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF6B6B, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            animation: shimmer 4s ease infinite;
+            font-weight: 800;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: var(--gradient-gold);
+            border-radius: 2px;
+            animation: shimmer-line 4s ease infinite;
+        }
+
+        @keyframes shimmer-line {
+            0%, 100% { width: 200px; opacity: 1; }
+            50% { width: 250px; opacity: 0.7; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header p {
+            font-size: 1.4em;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 20px auto 0;
+            line-height: 1.6;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Auth Buttons */
+        .auth-buttons { 
+            text-align: center; 
+            margin: 60px 0; 
+            position: relative;
+        }
+
+        .user-welcome {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease 0.7s both;
+        }
+
+        .user-welcome::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-2);
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            margin: 0 auto 15px;
+            background: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-avatar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: var(--gradient);
+            opacity: 0.3;
+            transform: rotate(45deg);
+            animation: shine 3s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .btn { 
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 40px; 
+            background: var(--primary); 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 50px; 
+            margin: 0 10px; 
+            transition: all 0.4s ease;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(88, 101, 242, 0.3);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            font-size: 1.1em;
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover { 
+            transform: translateY(-7px) scale(1.05);
+            box-shadow: 0 20px 30px rgba(88, 101, 242, 0.4);
+            background: var(--primary-dark);
+        }
+
+        .btn-dashboard { 
+            background: var(--gradient-2);
+            box-shadow: 0 10px 20px rgba(235, 69, 158, 0.3);
+        }
+
+        .btn-logout { 
+            background: var(--danger); 
+            box-shadow: 0 10px 20px rgba(237, 66, 69, 0.3);
+        }
+
+        .btn-logout:hover { 
+            background: #D03537; 
+        }
+
+        /* Stats Grid */
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 30px; 
+            margin: 70px 0; 
+        }
+
+        .stat-card { 
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            padding: 35px 25px; 
+            border-radius: 25px; 
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            animation: fadeInUp 1s ease 1.1s both;
+        }
+
+        .stat-card:nth-child(2) { animation-delay: 1.2s; }
+        .stat-card:nth-child(3) { animation-delay: 1.3s; }
+        .stat-card:nth-child(4) { animation-delay: 1.4s; }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-3);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover::after {
+            opacity: 1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.25);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+        }
+
+        .stat-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .stat-card p {
+            font-size: 2.5em;
+            font-weight: 800;
+            background: linear-gradient(45deg, #FFFFFF, #E2E8F0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Features Section */
+        .section-title {
+            text-align: center;
+            font-size: 3em;
+            margin: 80px 0 50px;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            font-weight: 800;
+            animation: fadeInUp 1s ease 1.5s both;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 5px;
+            background: var(--gradient-gold);
+            border-radius: 3px;
+            animation: shimmer-line 4s ease infinite;
+        }
+
+        .features-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 30px; 
+            margin: 50px 0 80px; 
+        }
+
+        .feature-card { 
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            padding: 35px; 
+            border-radius: 25px; 
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            animation: fadeInUp 1s ease 1.6s both;
+        }
+
+        .feature-card:nth-child(2) { animation-delay: 1.7s; }
+        .feature-card:nth-child(3) { animation-delay: 1.8s; }
+        .feature-card:nth-child(4) { animation-delay: 1.9s; }
+        .feature-card:nth-child(5) { animation-delay: 2.0s; }
+        .feature-card:nth-child(6) { animation-delay: 2.1s; }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-2);
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::after {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.25);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+        }
+
+        .feature-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            opacity: 0.9;
+            line-height: 1.6;
+            font-size: 1.05em;
+        }
+
+        /* Auto Delete Status */
+        .auto-delete-status {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 25px;
+            margin: 60px 0;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            animation: fadeInUp 1s ease 2.2s both;
+        }
+
+        .auto-delete-status::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-3);
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 30px;
+            background: rgba(59, 165, 93, 0.2);
+            border-radius: 50px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(59, 165, 93, 0.3);
+            box-shadow: 0 5px 15px rgba(59, 165, 93, 0.2);
+        }
+
+        .status-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 165, 93, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(59, 165, 93, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 165, 93, 0); }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            animation: fadeInUp 1s ease 2.3s both;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .social-link {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-link i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-link:hover::before {
+            opacity: 1;
+        }
+
+        .social-link:hover {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.8em; }
+            .header p { font-size: 1.2em; padding: 12px 20px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .btn { display: block; margin: 15px auto; max-width: 280px; }
+            .section-title { font-size: 2.5em; }
+            .logo { font-size: 4rem; }
+        }
+
+        /* Loading Animation */
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            animation: loading 2s ease-in-out;
+            z-index: 1000;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        @keyframes loading {
+            0% { transform: scaleX(0); }
+            50% { transform: scaleX(1); }
+            100% { transform: scaleX(0); opacity: 0; }
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float-element 15s infinite linear;
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+
+        @keyframes float-element {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Scroll Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Refresh Button */
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(88, 101, 242, 0.4);
+            transition: all 0.4s ease;
+            z-index: 100;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3em;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-5px) rotate(180deg);
+            box-shadow: 0 15px 30px rgba(88, 101, 242, 0.6);
+        }
+
+        .refresh-btn.loading {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-bar"></div>
+    <div id="particles-js"></div>
+    <div class="floating-elements" id="floating-elements"></div>
+    
+    <!-- Refresh Button -->
+    <button class="refresh-btn" id="refreshBtn" title="Cập nhật dữ liệu">
+        <i class="fas fa-sync-alt"></i>
+    </button>
+    
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">👑</div>
+            <h1>Queen Premium Bot</h1>
+            <p>Bot Discord đa tính năng với hệ thống Auto-Delete thông minh và giao diện hiện đại</p>
+        </div>
+
+        <!-- Authentication Section -->
+        <div class="auth-buttons">
+            <% if (user) { %>
+                <div class="user-welcome">
+                    <div class="user-avatar">
+                        <img src="<%= user.avatar %>" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center; background: var(--gradient); border-radius: 50%;">
+                            <i class="fas fa-crown" style="color: white; font-size: 2rem;"></i>
+                        </div>
+                    </div>
+                    <h2>Xin chào, <strong id="username"><%= user.username %></strong>! 👋</h2>
+                    <p>Chào mừng bạn đến với bảng điều khiển Queen Premium Bot</p>
+                </div>
+                <div class="action-buttons">
+                    <a href="/dashboard" class="btn btn-dashboard">
+                        <i class="fas fa-rocket"></i>
+                        🚀 Dashboard
+                    </a>
+                    <a href="/logout" class="btn btn-logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        🚪 Đăng xuất
+                    </a>
+                </div>
+            <% } else { %>
+                <div class="user-welcome">
+                    <h2>Kết nối với Discord của bạn</h2>
+                    <p>Đăng nhập để quản lý bot và truy cập các tính năng cao cấp</p>
+                </div>
+                <a href="/auth/discord" class="btn">
+                    <i class="fab fa-discord"></i>
+                    🔐 Đăng nhập với Discord
+                </a>
+            <% } %>
+        </div>
+
+        <!-- Statistics Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h3>📊 Servers</h3>
+                <p id="serverCount"><%= botStats.serverCount %></p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>👥 Users</h3>
+                <p id="userCount"><%= botStats.userCount %></p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>⏰ Uptime</h3>
+                <p id="uptime"><%= botStats.uptime %></p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <h3>🚀 Version</h3>
+                <p>v<%= botStats.version %></p>
+            </div>
+        </div>
+
+        <!-- Auto Delete Status -->
+        <div class="auto-delete-status">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>Hệ thống Auto-Delete đang hoạt động</span>
+            </div>
+            <h3>⚡ Auto-Delete System: <span style="color: #3BA55D;">ACTIVE</span></h3>
+            <p>Tin nhắn sẽ tự động được xóa sau <strong>10 giây</strong> để giữ cho chat luôn sạch sẽ</p>
+        </div>
+
+        <!-- Features Section -->
+        <h2 class="section-title">✨ Tính Năng Nổi Bật</h2>
+        <div class="features-grid" id="featuresGrid">
+            <% botStats.features.forEach(feature => { %>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <%
+                            let icon = "fas fa-star";
+                            if (feature.includes('Avatar')) icon = "fas fa-user-circle";
+                            else if (feature.includes('Music')) icon = "fas fa-music";
+                            else if (feature.includes('Auto-Delete')) icon = "fas fa-trash-alt";
+                            else if (feature.includes('AI')) icon = "fas fa-robot";
+                            else if (feature.includes('Economy')) icon = "fas fa-coins";
+                            else if (feature.includes('Game')) icon = "fas fa-gamepad";
+                            else if (feature.includes('Welcome')) icon = "fas fa-door-open";
+                        %>
+                        <i class="<%= icon %>"></i>
+                    </div>
+                    <h3><%= feature %></h3>
+                    <p>Trải nghiệm tính năng <%= feature.toLowerCase() %> với hiệu suất cao nhất</p>
+                </div>
+            <% }); %>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+            <p>© 2024 Queen Premium Bot. Made with ❤️ by Queen Team</p>
+            <p style="opacity: 0.7; margin-top: 10px; font-size: 0.9em;">
+                Phiên bản 6.0 | Auto-Delete Technology | Premium Features
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Biến lưu trữ dữ liệu hiện tại
+        let currentStats = {
+            serverCount: <%= botStats.serverCount %>,
+            userCount: <%= botStats.userCount %>,
+            uptime: '<%= botStats.uptime %>',
+            features: <%= JSON.stringify(botStats.features) %>
+        };
+
+        // Particles.js Configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 3,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Create floating elements
+        const floatingContainer = document.getElementById('floating-elements');
+        for (let i = 0; i < 15; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            element.style.left = `${Math.random() * 100}%`;
+            element.style.animationDelay = `${Math.random() * 15}s`;
+            element.style.width = `${20 + Math.random() * 40}px`;
+            element.style.height = element.style.width;
+            floatingContainer.appendChild(element);
+        }
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Header animation
+        gsap.from('.header h1', { duration: 1.2, y: -80, opacity: 0, ease: 'bounce.out' });
+        gsap.from('.logo', { duration: 1, scale: 0, rotation: 360, ease: 'back.out(1.7)' });
+
+        // Scroll animations
+        gsap.utils.toArray('.reveal').forEach(element => {
+            gsap.fromTo(element, {
+                opacity: 0,
+                y: 50
+            }, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Hàm cập nhật số liệu với animation
+        function animateNumberChange(elementId, newValue, duration = 1000) {
+            const element = document.getElementById(elementId);
+            const oldValue = parseInt(element.textContent.replace(/,/g, '')) || 0;
+            const startTime = performance.now();
+
+            function updateNumber(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smooth animation
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                const currentValue = Math.floor(oldValue + (newValue - oldValue) * easeOutQuart);
+                
+                element.textContent = currentValue.toLocaleString();
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                }
+            }
+
+            requestAnimationFrame(updateNumber);
+        }
+
+        // Hàm cập nhật thời gian hoạt động
+        function updateUptime(newUptime) {
+            const uptimeElement = document.getElementById('uptime');
+            gsap.to(uptimeElement, {
+                duration: 0.5,
+                opacity: 0,
+                y: -10,
+                onComplete: () => {
+                    uptimeElement.textContent = newUptime;
+                    gsap.to(uptimeElement, {
+                        duration: 0.5,
+                        opacity: 1,
+                        y: 0
+                    });
+                }
+            });
+        }
+
+        // Hàm refresh dữ liệu - KHÔNG reload trang
+        async function refreshData() {
+            const refreshBtn = document.getElementById('refreshBtn');
+            refreshBtn.classList.add('loading');
+            
+            try {
+                // Thêm hiệu ứng loading cho stats cards
+                gsap.to('.stat-card', { 
+                    duration: 0.3, 
+                    scale: 0.95,
+                    opacity: 0.8 
+                });
+
+                // Gọi API để lấy dữ liệu mới
+                const response = await fetch('/api/stats');
+                const newData = await response.json();
+
+                // Cập nhật dữ liệu với animation
+                if (newData.serverCount !== currentStats.serverCount) {
+                    animateNumberChange('serverCount', newData.serverCount);
+                }
+                if (newData.userCount !== currentStats.userCount) {
+                    animateNumberChange('userCount', newData.userCount);
+                }
+                if (newData.uptime !== currentStats.uptime) {
+                    updateUptime(newData.uptime);
+                }
+
+                // Cập nhật biến currentStats
+                currentStats = { ...currentStats, ...newData };
+
+                // Khôi phục animation cho cards
+                gsap.to('.stat-card', { 
+                    duration: 0.3, 
+                    delay: 0.2,
+                    scale: 1,
+                    opacity: 1 
+                });
+
+                // Hiển thị thông báo thành công
+                showNotification('Dữ liệu đã được cập nhật!', 'success');
+                
+            } catch (error) {
+                console.error('Lỗi khi cập nhật dữ liệu:', error);
+                showNotification('Không thể cập nhật dữ liệu', 'error');
+            } finally {
+                refreshBtn.classList.remove('loading');
+            }
+        }
+
+        // Hàm hiển thị thông báo
+        function showNotification(message, type = 'info') {
+            // Tạo element thông báo
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 30px;
+                right: 30px;
+                padding: 20px 25px;
+                background: ${type === 'success' ? 'var(--success)' : 'var(--danger)'};
+                color: white;
+                border-radius: 15px;
+                z-index: 10000;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                transform: translateX(400px);
+                transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255,255,255,0.1);
+                min-width: 300px;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}" style="font-size: 1.3em;"></i>
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 5px;">${type === 'success' ? 'Thành công' : 'Lỗi'}</div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">${message}</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Hiệu ứng xuất hiện
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Tự động ẩn sau 5 giây
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 400);
+            }, 5000);
+        }
+
+        // Event listeners
+        document.getElementById('refreshBtn').addEventListener('click', refreshData);
+
+        // Add hover effects
+        document.querySelectorAll('.stat-card, .feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, { duration: 0.3, scale: 1.03, ease: 'power2.out' });
+            });
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, { duration: 0.3, scale: 1, ease: 'power2.out' });
+            });
+        });
+
+        // Loading animation completion
+        setTimeout(() => {
+            document.querySelector('.loading-bar').style.display = 'none';
+        }, 2000);
+
+        // Add reveal class to elements for scroll animation
+        document.querySelectorAll('.stat-card, .feature-card, .auto-delete-status, .section-title').forEach(el => {
+            el.classList.add('reveal');
+        });
+
+        // Tự động cập nhật dữ liệu mỗi 30 giây (tùy chọn)
+        setInterval(refreshData, 30000);
+
+        // Cập nhật khi trang trở lại visible (tab được active)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                refreshData();
+            }
+        });
+
+        // Ngăn chặn hành vi mặc định của các form (nếu có)
+        document.addEventListener('submit', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>

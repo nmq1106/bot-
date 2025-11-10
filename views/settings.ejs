@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚙️ Cài đặt - Queen Premium Bot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --primary: #5865F2;
+            --primary-dark: #4752C4;
+            --secondary: #EB459E;
+            --success: #3BA55D;
+            --danger: #ED4245;
+            --warning: #FAA81A;
+            --info: #57F287;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --sidebar: #0f1419;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-light: #ffffff;
+            --text-gray: #b9bbbe;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --settings-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar);
+            height: 100vh;
+            position: fixed;
+            padding: 30px 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 5px 0 25px rgba(0,0,0,0.3);
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 3px solid var(--primary);
+            background: var(--darker);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .user-avatar .avatar-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient);
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .user-badges {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            background: var(--primary);
+        }
+
+        .badge.premium {
+            background: var(--gradient-2);
+        }
+
+        .badge.owner {
+            background: var(--gradient-gold);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-title {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            padding-left: 10px;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            margin: 8px 0;
+            background: transparent;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .nav-item:hover {
+            background: rgba(88, 101, 242, 0.1);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            background: var(--settings-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .stats-badge {
+            background: var(--card-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Settings Layout */
+        .settings-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            max-width: 1400px;
+        }
+
+        .settings-sidebar {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 30px;
+        }
+
+        .settings-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .settings-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .settings-nav-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .settings-nav-item.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .settings-nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .settings-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px;
+        }
+
+        .settings-section {
+            margin-bottom: 40px;
+        }
+
+        .settings-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .section-header h2 {
+            font-size: 1.5em;
+            background: linear-gradient(45deg, #FFFFFF, #E2E8F0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .section-header p {
+            color: var(--text-gray);
+            font-size: 0.95em;
+        }
+
+        /* Settings Cards */
+        .settings-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .setting-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .setting-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .setting-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .setting-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .setting-description {
+            color: var(--text-gray);
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .setting-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--settings-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            flex-shrink: 0;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .form-hint {
+            display: block;
+            margin-top: 5px;
+            color: var(--text-gray);
+            font-size: 0.85em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 1em;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        /* Toggle Switch */
+        .toggle-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .toggle-group:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-label {
+            flex: 1;
+        }
+
+        .toggle-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .toggle-description {
+            color: var(--text-gray);
+            font-size: 0.9em;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255,255,255,0.2);
+            transition: .4s;
+            border-radius: 30px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--success);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 25px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(88, 101, 242, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85em;
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Danger Zone */
+        .danger-zone {
+            background: rgba(237, 66, 69, 0.1);
+            border: 1px solid var(--danger);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .danger-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            color: var(--danger);
+        }
+
+        .danger-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--success);
+            color: white;
+            border-radius: 10px;
+            z-index: 10000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        .notification.warning {
+            background: var(--warning);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--darker);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        /* New Features */
+        .feature-highlight {
+            background: rgba(59, 165, 93, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-highlight i {
+            color: var(--success);
+            font-size: 1.2em;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 0.9em;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+                padding: 20px 10px;
+            }
+            .sidebar .nav-text, .user-info .user-name, .user-discriminator {
+                display: none;
+            }
+            .main-content {
+                margin-left: 80px;
+            }
+            .settings-container {
+                grid-template-columns: 1fr;
+            }
+            .settings-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>👑 Queen Premium</h1>
+            <p style="color: var(--text-gray); font-size: 0.8em;">Settings</p>
+        </div>
+
+        <div class="user-info">
+            <div class="user-avatar">
+                <img src="<%= user.avatar %>" alt="Avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="avatar-fallback" style="display: none;">
+                    <i class="fas fa-crown"></i>
+                </div>
+            </div>
+            <div class="user-name"><%= user.username %></div>
+            <div class="user-discriminator">#<%= user.discriminator %></div>
+            <div class="user-badges">
+                <div class="badge premium" title="Premium User">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <% if (user.id === process.env.BOT_OWNER_ID) { %>
+                <div class="badge owner" title="Bot Owner">
+                    <i class="fas fa-star"></i>
+                </div>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-title">Main Menu</div>
+            <a href="/dashboard" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span class="nav-text">📊 Tổng quan</span>
+            </a>
+            <a href="/dashboard/servers" class="nav-item">
+                <i class="fas fa-server"></i>
+                <span class="nav-text">🏠 Quản lý Servers</span>
+            </a>
+            <a href="/dashboard/music" class="nav-item">
+                <i class="fas fa-music"></i>
+                <span class="nav-text">🎵 Quản lý Music</span>
+            </a>
+            <a href="/dashboard/settings" class="nav-item active">
+                <i class="fas fa-cog"></i>
+                <span class="nav-text">⚙️ Cài đặt</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Settings</div>
+            <a href="#general" class="nav-item" onclick="showSection('general')">
+                <i class="fas fa-cog"></i>
+                <span class="nav-text">⚙️ Tổng quan</span>
+            </a>
+            <a href="#bot" class="nav-item" onclick="showSection('bot')">
+                <i class="fas fa-robot"></i>
+                <span class="nav-text">🤖 Bot Settings</span>
+            </a>
+            <a href="#music" class="nav-item" onclick="showSection('music')">
+                <i class="fas fa-music"></i>
+                <span class="nav-text">🎵 Music Settings</span>
+            </a>
+            <a href="#autodelete" class="nav-item" onclick="showSection('autodelete')">
+                <i class="fas fa-trash-alt"></i>
+                <span class="nav-text">⏰ Auto-Delete</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Navigation</div>
+            <a href="/" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span class="nav-text">🏠 Về trang chủ</span>
+            </a>
+            <a href="/logout" class="nav-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="nav-text">🚪 Đăng xuất</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>⚙️ Cài đặt hệ thống</h1>
+            <div class="header-actions">
+                <div class="stats-badge">
+                    <i class="fas fa-circle" style="color: var(--success);"></i>
+                    <span>Bot Online</span>
+                </div>
+                <div class="stats-badge">
+                    <i class="fas fa-server"></i>
+                    <span id="serverCount"><%= botSettings.totalServers %> servers</span>
+                </div>
+                <button class="btn btn-success" onclick="saveAllSettings()">
+                    <i class="fas fa-save"></i>
+                    Lưu tất cả cài đặt
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <div class="stat-item">
+                <div class="stat-value" id="totalServers"><%= botSettings.totalServers %></div>
+                <div class="stat-label">Total Servers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalUsers"><%= botSettings.totalUsers %></div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value"><%= botSettings.version %></div>
+                <div class="stat-label">Bot Version</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="uptime"><%= botSettings.uptime %></div>
+                <div class="stat-label">Uptime</div>
+            </div>
+        </div>
+
+        <div class="settings-container">
+            <!-- Settings Sidebar -->
+            <div class="settings-sidebar">
+                <div class="settings-nav">
+                    <a href="#general" class="settings-nav-item active" onclick="showSection('general')">
+                        <i class="fas fa-cog"></i>
+                        <span>⚙️ Tổng quan</span>
+                    </a>
+                    <a href="#bot" class="settings-nav-item" onclick="showSection('bot')">
+                        <i class="fas fa-robot"></i>
+                        <span>🤖 Bot Settings</span>
+                    </a>
+                    <a href="#music" class="settings-nav-item" onclick="showSection('music')">
+                        <i class="fas fa-music"></i>
+                        <span>🎵 Music Settings</span>
+                    </a>
+                    <a href="#autodelete" class="settings-nav-item" onclick="showSection('autodelete')">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>⏰ Auto-Delete</span>
+                    </a>
+                    <a href="#notifications" class="settings-nav-item" onclick="showSection('notifications')">
+                        <i class="fas fa-bell"></i>
+                        <span>🔔 Thông báo</span>
+                    </a>
+                    <a href="#privacy" class="settings-nav-item" onclick="showSection('privacy')">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>🛡️ Bảo mật</span>
+                    </a>
+                    <a href="#backup" class="settings-nav-item" onclick="showSection('backup')">
+                        <i class="fas fa-database"></i>
+                        <span>💾 Sao lưu</span>
+                    </a>
+                    <a href="#advanced" class="settings-nav-item" onclick="showSection('advanced')">
+                        <i class="fas fa-code"></i>
+                        <span>⚡ Nâng cao</span>
+                    </a>
+                    <a href="#danger" class="settings-nav-item" onclick="showSection('danger')">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>⚠️ Khu vực nguy hiểm</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Settings Content -->
+            <div class="settings-content">
+                <!-- General Settings -->
+                <div id="general-section" class="settings-section">
+                    <div class="section-header">
+                        <h2>⚙️ Cài đặt tổng quan</h2>
+                        <p>Quản lý các cài đặt cơ bản và chung của hệ thống</p>
+                    </div>
+
+                    <div class="feature-highlight">
+                        <i class="fas fa-rocket"></i>
+                        <div>
+                            <strong>Performance Boost Active</strong>
+                            <div style="font-size: 0.9em; color: var(--text-gray);">Hệ thống đang chạy với hiệu suất tối ưu</div>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <div>
+                                    <div class="setting-title">Ngôn ngữ hệ thống</div>
+                                    <div class="setting-description">Chọn ngôn ngữ hiển thị cho bot và dashboard</div>
+                                </div>
+                                <div class="setting-icon">
+                                    <i class="fas fa-language"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-select" id="languageSelect">
+                                    <option value="vi">🇻🇳 Tiếng Việt</option>
+                                    <option value="en">🇺🇸 English</option>
+                                    <option value="ja">🇯🇵 日本語</option>
+                                    <option value="ko">🇰🇷 한국어</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <div>
+                                    <div class="setting-title">Theme & Giao diện</div>
+                                    <div class="setting-description">Tùy chỉnh giao diện và màu sắc của dashboard</div>
+                                </div>
+                                <div class="setting-icon">
+                                    <i class="fas fa-palette"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-select" id="themeSelect">
+                                    <option value="dark">🌙 Dark Mode</option>
+                                    <option value="light">☀️ Light Mode</option>
+                                    <option value="auto">⚡ Auto (System)</option>
+                                    <option value="premium">👑 Premium Dark</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Màu chủ đạo</label>
+                                <input type="color" class="form-input" id="primaryColor" value="#5865F2">
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Glass Effect</div>
+                                    <div class="toggle-description">Hiệu ứng kính mờ cho giao diện</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="glassEffect" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <div>
+                                    <div class="setting-title">Cài đặt hiệu suất</div>
+                                    <div class="setting-description">Tối ưu hóa hiệu suất và tốc độ hệ thống</div>
+                                </div>
+                                <div class="setting-icon">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                </div>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Cache hệ thống</div>
+                                    <div class="toggle-description">Lưu trữ dữ liệu tạm thời để tăng tốc độ</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="systemCache" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Auto-refresh</div>
+                                    <div class="toggle-description">Tự động làm mới dữ liệu mỗi 30 giây</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoRefresh" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Hiệu ứng animations</div>
+                                    <div class="toggle-description">Hiển thị hiệu ứng chuyển động mượt mà</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="animations" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bot Settings -->
+                <div id="bot-section" class="settings-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>🤖 Cài đặt Bot</h2>
+                        <p>Quản lý các tính năng và hành vi của bot Discord</p>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <div>
+                                    <div class="setting-title">Prefix & Lệnh</div>
+                                    <div class="setting-description">Cấu hình prefix và quyền sử dụng lệnh</div>
+                                </div>
+                                <div class="setting-icon">
+                                    <i class="fas fa-terminal"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Bot Prefix</label>
+                                <input type="text" class="form-input" id="botPrefix" value="!" maxlength="5">
+                                <div class="form-hint">Ký tự prefix để gọi lệnh bot (ví dụ: !help)</div>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Slash Commands</div>
+                                    <div class="toggle-description">Kích hoạt lệnh slash (/)</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="slashCommands" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Context Menu</div>
+                                    <div class="toggle-description">Hiển thị menu ngữ cảnh khi click phải</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="contextMenu" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <div>
+                                    <div class="setting-title">Tính năng Moderation</div>
+                                    <div class="setting-description">Quản lý các tính năng kiểm duyệt và bảo mật</div>
+                                </div>
+                                <div class="setting-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Auto Moderation</div>
+                                    <div class="toggle-description">Tự động xử lý vi phạm và spam</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoMod" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Logging System</div>
+                                    <div class="toggle-description">Ghi lại các sự kiện quan trọng</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="loggingSystem" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Welcome Messages</div>
+                                    <div class="toggle-description">Chào mừng thành viên mới</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="welcomeMessages" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Anti-Raid Protection</div>
+                                    <div class="toggle-description">Bảo vệ server khỏi tấn công hàng loạt</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="antiRaid" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <div>
+                                    <div class="setting-title">Cài đặt AI & Tương tác</div>
+                                    <div class="setting-description">Tích hợp AI và tính năng thông minh</div>
+                                </div>
+                                <div class="setting-icon">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">AI Chat System</div>
+                                    <div class="toggle-description">Kích hoạt trò chuyện với AI</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="aiChat" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Smart Responses</div>
+                                    <div class="toggle-description">Phản hồi thông minh tự động</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="smartResponses" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Image Generation</div>
+                                    <div class="toggle-description">Tạo hình ảnh với AI</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="imageGeneration">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">AI Model</label>
+                                <select class="form-select" id="aiModel">
+                                    <option value="gemini">Google Gemini Pro</option>
+                                    <option value="gpt">OpenAI GPT-4</option>
+                                    <option value="claude">Claude 3</option>
+                                    <option value="custom">Custom API</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Settings -->
+                <div id="advanced-section" class="settings-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>⚡ Cài đặt Nâng cao</h2>
+                        <p>Các tùy chọn cấu hình chuyên sâu cho người dùng có kinh nghiệm</p>
+                    </div>
+
+                    <div class="feature-highlight">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <strong>Cảnh báo: Cài đặt nâng cao</strong>
+                            <div style="font-size: 0.9em; color: var(--text-gray);">Chỉ thay đổi nếu bạn hiểu rõ tác động</div>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <div>
+                                    <div class="setting-title">API & Webhooks</div>
+                                    <div class="setting-description">Cấu hình tích hợp API và webhooks</div>
+                                </div>
+                                <div class="setting-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">API Base URL</label>
+                                <input type="text" class="form-input" id="apiBaseUrl" value="https://api.queenbot.com/v1">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Webhook Secret</label>
+                                <input type="password" class="form-input" id="webhookSecret" placeholder="Nhập secret key">
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Enable Webhooks</div>
+                                    <div class="toggle-description">Kích hoạt nhận sự kiện qua webhook</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="enableWebhooks">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <div>
+                                    <div class="setting-title">Database & Cache</div>
+                                    <div class="setting-description">Cấu hình lưu trữ và bộ nhớ đệm</div>
+                                </div>
+                                <div class="setting-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Cache TTL (seconds)</label>
+                                <input type="number" class="form-input" id="cacheTTL" value="300" min="60" max="3600">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Database Pool Size</label>
+                                <input type="number" class="form-input" id="dbPoolSize" value="10" min="5" max="50">
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Query Logging</div>
+                                    <div class="toggle-description">Ghi log các truy vấn database</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="queryLogging">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <div>
+                                    <div class="setting-title">Performance Tuning</div>
+                                    <div class="setting-description">Tối ưu hóa hiệu năng hệ thống</div>
+                                </div>
+                                <div class="setting-icon">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Shard Count</label>
+                                <input type="number" class="form-input" id="shardCount" value="1" min="1" max="10">
+                                <div class="form-hint">Số lượng shard cho bot lớn</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Message Cache Size</label>
+                                <input type="number" class="form-input" id="messageCacheSize" value="200" min="50" max="1000">
+                            </div>
+                            <div class="toggle-group">
+                                <div class="toggle-label">
+                                    <div class="toggle-title">Guild Subscriptions</div>
+                                    <div class="toggle-description">Đăng ký sự kiện server</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="guildSubscriptions" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div id="danger-section" class="settings-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>⚠️ Khu vực nguy hiểm</h2>
+                        <p>Thao tác này không thể hoàn tác. Hãy cẩn thận!</p>
+                    </div>
+
+                    <div class="danger-zone">
+                        <div class="danger-header">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Khu vực nguy hiểm</h3>
+                        </div>
+                        <p style="color: var(--text-gray); margin-bottom: 20px;">
+                            Các thao tác trong khu vực này có thể ảnh hưởng nghiêm trọng đến hệ thống và dữ liệu. 
+                            Vui lòng sao lưu dữ liệu trước khi thực hiện.
+                        </p>
+
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="setting-header">
+                                    <div>
+                                        <div class="setting-title">Xóa dữ liệu người dùng</div>
+                                        <div class="setting-description">Xóa toàn bộ dữ liệu cấp độ, kinh tế của users</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-danger btn-full" onclick="showConfirmModal('resetUserData')">
+                                    <i class="fas fa-user-slash"></i>
+                                    Xóa dữ liệu người dùng
+                                </button>
+                            </div>
+
+                            <div class="setting-card">
+                                <div class="setting-header">
+                                    <div>
+                                        <div class="setting-title">Xóa cài đặt server</div>
+                                        <div class="setting-description">Đặt lại toàn bộ cài đặt server về mặc định</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-danger btn-full" onclick="showConfirmModal('resetServerSettings')">
+                                    <i class="fas fa-server"></i>
+                                    Đặt lại cài đặt server
+                                </button>
+                            </div>
+
+                            <div class="setting-card">
+                                <div class="setting-header">
+                                    <div>
+                                        <div class="setting-title">Xóa dữ liệu nhạc</div>
+                                        <div class="setting-description">Xóa playlists, lịch sử phát nhạc</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-danger btn-full" onclick="showConfirmModal('resetMusicData')">
+                                    <i class="fas fa-music"></i>
+                                    Xóa dữ liệu nhạc
+                                </button>
+                            </div>
+
+                            <% if (user.id === process.env.BOT_OWNER_ID) { %>
+                            <div class="setting-card">
+                                <div class="setting-header">
+                                    <div>
+                                        <div class="setting-title">Khởi động lại Bot</div>
+                                        <div class="setting-description">Khởi động lại toàn bộ hệ thống bot</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-warning btn-full" onclick="showConfirmModal('restartBot')">
+                                    <i class="fas fa-power-off"></i>
+                                    Khởi động lại Bot
+                                </button>
+                            </div>
+
+                            <div class="setting-card">
+                                <div class="setting-header">
+                                    <div>
+                                        <div class="setting-title">Maintenance Mode</div>
+                                        <div class="setting-description">Chế độ bảo trì toàn hệ thống</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-warning btn-full" onclick="showConfirmModal('maintenanceMode')">
+                                    <i class="fas fa-tools"></i>
+                                    Bật Maintenance Mode
+                                </button>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚠️ Xác nhận hành động</h3>
+                <button class="close-modal" onclick="closeModal('confirmModal')">&times;</button>
+            </div>
+            <div id="confirmModalContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced settings with more features
+        let settings = {
+            general: {
+                language: 'vi',
+                theme: 'dark',
+                primaryColor: '#5865F2',
+                systemCache: true,
+                autoRefresh: true,
+                animations: true,
+                glassEffect: true
+            },
+            bot: {
+                prefix: '!',
+                slashCommands: true,
+                contextMenu: true,
+                autoMod: true,
+                loggingSystem: true,
+                welcomeMessages: true,
+                antiRaid: true,
+                aiChat: true,
+                smartResponses: true,
+                imageGeneration: false,
+                aiModel: 'gemini'
+            },
+            music: {
+                defaultVolume: 50,
+                audioQuality: 'high',
+                maxQueueSize: 100,
+                autoPlay: true,
+                stayInChannel: false,
+                radioStations: true,
+                soundcloudSupport: true,
+                spotifyIntegration: false
+            },
+            autodelete: {
+                enabled: true,
+                deleteDelay: 10,
+                deleteCommandMessages: true,
+                protectImportant: true,
+                protectAdminMessages: true,
+                protectedKeywords: 'quan trọng\nthông báo\ncố định',
+                protectedChannels: '#general\n#announcements\n#rules',
+                protectedRoles: '@Admin\n@Moderator\n@Staff'
+            },
+            advanced: {
+                apiBaseUrl: 'https://api.queenbot.com/v1',
+                webhookSecret: '',
+                enableWebhooks: false,
+                cacheTTL: 300,
+                dbPoolSize: 10,
+                queryLogging: false,
+                shardCount: 1,
+                messageCacheSize: 200,
+                guildSubscriptions: true
+            }
+        };
+
+        // Initialize settings with enhanced features
+        function initializeSettings() {
+            const savedSettings = localStorage.getItem('queenPremiumSettings');
+            if (savedSettings) {
+                settings = { ...settings, ...JSON.parse(savedSettings) };
+            }
+            
+            applySettingsToUI();
+            initializeEventListeners();
+            initializeRealTimeUpdates();
+        }
+
+        // Apply settings to UI with new features
+        function applySettingsToUI() {
+            // General settings
+            document.getElementById('languageSelect').value = settings.general.language;
+            document.getElementById('themeSelect').value = settings.general.theme;
+            document.getElementById('primaryColor').value = settings.general.primaryColor;
+            document.getElementById('systemCache').checked = settings.general.systemCache;
+            document.getElementById('autoRefresh').checked = settings.general.autoRefresh;
+            document.getElementById('animations').checked = settings.general.animations;
+            document.getElementById('glassEffect').checked = settings.general.glassEffect;
+
+            // Bot settings
+            document.getElementById('botPrefix').value = settings.bot.prefix;
+            document.getElementById('slashCommands').checked = settings.bot.slashCommands;
+            document.getElementById('contextMenu').checked = settings.bot.contextMenu;
+            document.getElementById('autoMod').checked = settings.bot.autoMod;
+            document.getElementById('loggingSystem').checked = settings.bot.loggingSystem;
+            document.getElementById('welcomeMessages').checked = settings.bot.welcomeMessages;
+            document.getElementById('antiRaid').checked = settings.bot.antiRaid;
+            document.getElementById('aiChat').checked = settings.bot.aiChat;
+            document.getElementById('smartResponses').checked = settings.bot.smartResponses;
+            document.getElementById('imageGeneration').checked = settings.bot.imageGeneration;
+            document.getElementById('aiModel').value = settings.bot.aiModel;
+
+            // Advanced settings
+            document.getElementById('apiBaseUrl').value = settings.advanced.apiBaseUrl;
+            document.getElementById('webhookSecret').value = settings.advanced.webhookSecret;
+            document.getElementById('enableWebhooks').checked = settings.advanced.enableWebhooks;
+            document.getElementById('cacheTTL').value = settings.advanced.cacheTTL;
+            document.getElementById('dbPoolSize').value = settings.advanced.dbPoolSize;
+            document.getElementById('queryLogging').checked = settings.advanced.queryLogging;
+            document.getElementById('shardCount').value = settings.advanced.shardCount;
+            document.getElementById('messageCacheSize').value = settings.advanced.messageCacheSize;
+            document.getElementById('guildSubscriptions').checked = settings.advanced.guildSubscriptions;
+        }
+
+        // Initialize real-time updates for stats
+        function initializeRealTimeUpdates() {
+            // Update stats every 30 seconds
+            setInterval(updateBotStats, 30000);
+            
+            // Initial update
+            updateBotStats();
+        }
+
+        // Update bot statistics
+        async function updateBotStats() {
+            try {
+                const response = await fetch('/api/real-time/stats');
+                const data = await response.json();
+                
+                // Update stats with animation
+                animateNumberChange('totalServers', data.serverCount);
+                animateNumberChange('totalUsers', data.userCount);
+                document.getElementById('uptime').textContent = data.uptime;
+                document.getElementById('serverCount').textContent = data.serverCount + ' servers';
+                
+            } catch (error) {
+                console.log('Error updating stats:', error);
+            }
+        }
+
+        // Animate number changes
+        function animateNumberChange(elementId, newValue, duration = 1000) {
+            const element = document.getElementById(elementId);
+            const oldValue = parseInt(element.textContent) || 0;
+            const startTime = performance.now();
+
+            function updateNumber(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                const currentValue = Math.floor(oldValue + (newValue - oldValue) * easeOutQuart);
+                
+                element.textContent = currentValue.toLocaleString();
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                }
+            }
+
+            requestAnimationFrame(updateNumber);
+        }
+
+        // Enhanced section navigation with animation
+        function showSection(sectionId) {
+            // Hide all sections with animation
+            document.querySelectorAll('.settings-section').forEach(section => {
+                gsap.to(section, {
+                    duration: 0.3,
+                    opacity: 0,
+                    y: 20,
+                    onComplete: () => {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+
+            // Show selected section with animation
+            const targetSection = document.getElementById(sectionId + '-section');
+            targetSection.style.display = 'block';
+            
+            gsap.fromTo(targetSection, 
+                { opacity: 0, y: 20 },
+                { duration: 0.5, opacity: 1, y: 0, ease: 'back.out(1.7)' }
+            );
+
+            // Update active nav items
+            document.querySelectorAll('.settings-nav-item, .nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Activate current nav item
+            const activeNavItems = document.querySelectorAll(`[href="#${sectionId}"]`);
+            activeNavItems.forEach(item => item.classList.add('active'));
+
+            // Save last active section
+            localStorage.setItem('lastActiveSection', sectionId);
+        }
+
+        // Restore last active section on page load
+        function restoreLastSection() {
+            const lastSection = localStorage.getItem('lastActiveSection') || 'general';
+            showSection(lastSection);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSettings();
+            restoreLastSection();
+            
+            // Enhanced animations
+            gsap.from('.settings-container', {
+                duration: 0.8,
+                y: 30,
+                opacity: 0,
+                ease: 'back.out(1.7)'
+            });
+            
+            gsap.from('.setting-card', {
+                duration: 0.6,
+                y: 20,
+                opacity: 0,
+                stagger: 0.1,
+                delay: 0.3,
+                ease: 'back.out(1.7)'
+            });
+
+            // Add hover effects
+            document.querySelectorAll('.setting-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, { duration: 0.3, scale: 1.02, ease: 'power2.out' });
+                });
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, { duration: 0.3, scale: 1, ease: 'power2.out' });
+                });
+            });
+        });
+
+        // Auto-save settings with debounce
+        let saveTimeout;
+        function debounceSave() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(saveAllSettings, 2000);
+        }
+
+        // Enhanced save all settings
+        async function saveAllSettings() {
+            const btn = event?.target;
+            if (btn) {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<div class="loading"></div> Đang lưu...';
+                btn.disabled = true;
+            }
+
+            try {
+                // Collect all settings
+                settings.autodelete.protectedKeywords = document.getElementById('protectedKeywords').value;
+                settings.autodelete.protectedChannels = document.getElementById('protectedChannels').value;
+                settings.autodelete.protectedRoles = document.getElementById('protectedRoles').value;
+
+                // Save to localStorage
+                localStorage.setItem('queenPremiumSettings', JSON.stringify(settings));
+
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                showNotification('Đã lưu tất cả cài đặt thành công!', 'success');
+                
+            } catch (error) {
+                showNotification('Lỗi khi lưu cài đặt', 'error');
+            } finally {
+                if (btn) {
+                    btn.innerHTML = '<i class="fas fa-save"></i> Lưu tất cả cài đặt';
+                    btn.disabled = false;
+                }
+            }
+        }
+
+        // Auto-save settings every minute
+        setInterval(saveAllSettings, 60000);
+    </script>
+</body>
+</html>
